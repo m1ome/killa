@@ -8,19 +8,24 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"slices"
 	"strings"
 )
 
-var gist, codeword, cmd string
+var gist, codeword, cmd, names string
 
 type Comment struct {
 	Body string `json:"body"`
+	User struct {
+		Login string `json:"login"`
+	} `json:"user"`
 }
 
 func init() {
 	flag.StringVar(&gist, "gist", "", "gist id to look on")
 	flag.StringVar(&codeword, "codeword", "", "codeword to work with")
 	flag.StringVar(&cmd, "cmd", "", "command to run")
+	flag.StringVar(&names, "names", "", "possible name restrictions")
 
 	flag.Parse()
 }
@@ -38,6 +43,10 @@ func main() {
 
 	for _, comment := range comments {
 		if strings.Contains(comment.Body, codeword) {
+			if names != "" && !slices.Contains(strings.Split(names, ","), comment.User.Login) {
+				break
+			}
+
 			if err := exec.Command(command[0], command[1:]...).Start(); err != nil {
 				log.Fatalf("error executing command: %v", err)
 			}
