@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-var gist, codeword, cmd, names string
+var gist, codeword, cmd, logins string
 
 type Comment struct {
 	Body string `json:"body"`
@@ -25,7 +25,7 @@ func init() {
 	flag.StringVar(&gist, "gist", "", "gist id to look on")
 	flag.StringVar(&codeword, "codeword", "", "codeword to work with")
 	flag.StringVar(&cmd, "cmd", "", "command to run")
-	flag.StringVar(&names, "names", "", "possible name restrictions")
+	flag.StringVar(&logins, "logins", "", "possible name restrictions")
 
 	flag.Parse()
 }
@@ -43,7 +43,7 @@ func main() {
 
 	for _, comment := range comments {
 		if strings.Contains(comment.Body, codeword) {
-			if names != "" && !slices.Contains(strings.Split(names, ","), comment.User.Login) {
+			if logins != "" && !slices.Contains(strings.Split(logins, ","), comment.User.Login) {
 				break
 			}
 
