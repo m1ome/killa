@@ -1,5 +1,5 @@
 # 💀 Dead Man Trigger or THE KILLA 
-> Gist-based cloaked dead man trigger
+> Gist-based cloaked dead man trigger, with zero dependencies
 
 ## Why do you need it?
 Mainly it's for security reasons: automatically shutting down, locking, or erasing sensitive data if regular check-ins or commands aren’t received, preventing unauthorized access.
